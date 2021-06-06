@@ -65,6 +65,7 @@ public class BelicaAssassina {
                for (int i = 0; i < handler.shots.length; i++) {
                    if (handler.shots[i] != null && handler.shots[i].getMaxX() < handler.rect.getWidth()) {
                        handler.moveShot(i);
+                       handler.colisionDetector(i);
                    }
                }
 

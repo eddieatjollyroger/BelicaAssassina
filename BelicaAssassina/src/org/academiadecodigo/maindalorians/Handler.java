@@ -15,6 +15,8 @@ public class Handler implements KeyboardHandler {
     public Picture rect;
     public Picture ship;
     public Picture[] shots;
+    private Mamonas mamona;
+    private Picture[] mamonas;
 
     public boolean gameOver = false;
 
@@ -98,14 +100,25 @@ public class Handler implements KeyboardHandler {
     }
 
     public void createMamona(){
-        Mamonas mamona = new Mamonas(rect);
+        mamona = new Mamonas(rect);
         mamona.createMamona();
-    }
-
-    public void colisionDetector(){
+        mamonas = mamona.getMamona();
 
     }
 
+    public void colisionDetector(int i) {
+        for (int j = 0; j < mamonas.length; j++) {
+            if (shots[i] != null && mamonas[j] != null) {
+                if ((shots[i].getMaxX() >= mamonas[j].getX()) && shots[i].getY() >= mamonas[j].getY() && shots[i].getMaxY() <= mamonas[j].getMaxY()) {
+                    shots[i].delete();
+                    shots[i] = null;
+                    mamonas[j].delete();
+                    mamonas[j] = null;
+                    break;
+                }
+            }
+        }
+    }
     @Override
     public void keyReleased(KeyboardEvent event) {
         if (event.getKey() == KeyboardEvent.KEY_SPACE) {

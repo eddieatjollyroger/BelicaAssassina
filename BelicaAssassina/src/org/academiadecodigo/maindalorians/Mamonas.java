@@ -28,6 +28,10 @@ public class Mamonas {
     mamona[i].draw();
     }
 
+    public Picture[] getMamona(){
+    return mamona;
+    }
+
     public void collisionDetector(int i){
     }
 }

@@ -35,6 +35,8 @@ public class BelicaAssassina {
 
         KeyboardEvent rightArrowPress = new KeyboardEvent();
 
+        KeyboardEvent rKeyPress = new KeyboardEvent();
+
         spacePressed.setKey(KeyboardEvent.KEY_SPACE);
         spacePressed.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
@@ -51,6 +53,9 @@ public class BelicaAssassina {
         rightArrowPress.setKey(KeyboardEvent.KEY_RIGHT);
         rightArrowPress.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
+        rKeyPress.setKey(KeyboardEvent.KEY_R);
+        rKeyPress.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
         keyboard.addEventListener(spacePressed);
         keyboard.addEventListener(upArrowPress);
         keyboard.addEventListener(downArrowPress);
@@ -66,13 +71,14 @@ public class BelicaAssassina {
                    if (handler.shots[i] != null && handler.shots[i].getMaxX() < handler.rect.getWidth()) {
                        handler.moveShot(i);
                        handler.colisionDetector(i);
+
                    }
                }
 
-                for (int i= 0; i < handler.mamonas.length; i++){
-                    if (handler.mamonas[i] != null){
-                        handler.colisionDetector(i);
+                for (int i= 0; i < handler.mamona.length; i++){
+                    if (handler.mamona[i] != null){
                         handler.moveMamonas(i);
+                        handler.colisionDetector(i);
                     }
                 }
             try {
@@ -81,10 +87,11 @@ public class BelicaAssassina {
                 e.printStackTrace();
             }
         }
+        handler.shots = null;
         Picture overGame = new Picture(0,0,"resources/background.png");
         overGame.draw();
         Picture gameOver = new Picture(0, 0, "resources/gameover.png");
         gameOver.draw();
-        handler.shots = null;
+
     }
 }

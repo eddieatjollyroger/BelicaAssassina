@@ -11,22 +11,30 @@ import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
 
+
+
 public class Handler implements KeyboardHandler {
+
     public Picture rect;
     public Picture ship;
+    private Picture explosion;
     public Picture[] shots;
     private Mamonas mamona;
-    private Picture[] mamonas;
-
+    public Picture[] mamonas;
+    private String direction;
     public boolean gameOver = false;
+    private int counter = 0;
+    public int spawnCounter= 10;
+
 
     public Handler() {
         rect = new Picture(0, 0, "resources/background.png");
         rect.draw();
-        ship = new Picture(0, rect.getHeight()/2, "resources/blica1.png");
+        ship = new Picture(0, (int) (rect.getHeight()/2), "resources/blica2.png");
         ship.draw();
         shots = new Picture[50];
-         createMamona();
+          createMamona();
+          createMamona();
     }
 
 
@@ -85,7 +93,7 @@ public class Handler implements KeyboardHandler {
 
         //moveShot();
     }
-
+                
     public void moveShot(int i) {
         if (shots[i].getMaxX() > 1185) {
             shots[i].delete();
@@ -100,25 +108,56 @@ public class Handler implements KeyboardHandler {
     }
 
     public void createMamona(){
-        mamona = new Mamonas(rect);
+        mamona = new Mamonas(rect, this);
         mamona.createMamona();
         mamonas = mamona.getMamona();
+        System.out.println(spawnCounter);
+        spawnCounter--;
 
+        if (spawnCounter == 0){
+                   spawnCounter = 10;
+        }
     }
 
     public void colisionDetector(int i) {
         for (int j = 0; j < mamonas.length; j++) {
             if (shots[i] != null && mamonas[j] != null) {
-                if ((shots[i].getMaxX() >= mamonas[j].getX()) && shots[i].getY() >= mamonas[j].getY() && shots[i].getMaxY() <= mamonas[j].getMaxY()) {
+                if ((shots[i].getMaxX() >= mamonas[j].getX()+10) &&
+                        shots[i].getY() >= mamonas[j].getY() &&
+                        shots[i].getMaxY() <= mamonas[j].getMaxY()) {
                     shots[i].delete();
                     shots[i] = null;
                     mamonas[j].delete();
+                    drawExplosion(mamonas[j].getX(), mamonas[j].getY());
                     mamonas[j] = null;
+                    createMamona();
+
                     break;
                 }
-            }
+            }                                                                     
+            if (mamonas[j] != null){
+
+                     if(mamonas[j].getMaxY()-10 > ship.getY() && mamonas[j].getY()+10 < ship.getMaxY()
+                     && mamonas[j].getX()+10 < ship.getMaxX() && mamonas[j].getMaxX()-10 > ship.getX()) {
+                         System.out.println("boas");
+                         setGameOver(true);
+                     }
         }
     }
+    }
+    public void moveMamonas(int i) {
+     mamona.moveMamonas(i);
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    public void drawExplosion(int x, int y){
+      explosion = new Picture(x, y, "resources/explosion.png");
+      explosion.draw();
+    }
+
     @Override
     public void keyReleased(KeyboardEvent event) {
         if (event.getKey() == KeyboardEvent.KEY_SPACE) {

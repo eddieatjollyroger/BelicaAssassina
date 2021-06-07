@@ -69,11 +69,22 @@ public class BelicaAssassina {
                    }
                }
 
+                for (int i= 0; i < handler.mamonas.length; i++){
+                    if (handler.mamonas[i] != null){
+                        handler.colisionDetector(i);
+                        handler.moveMamonas(i);
+                    }
+                }
             try {
                 Thread.sleep(70);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        Picture overGame = new Picture(0,0,"resources/background.png");
+        overGame.draw();
+        Picture gameOver = new Picture(0, 0, "resources/gameover.png");
+        gameOver.draw();
+        handler.shots = null;
     }
 }

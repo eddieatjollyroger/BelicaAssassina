@@ -1,7 +1,7 @@
 package org.academiadecodigo.maindalorians;
 
-import org.academiadecodigo.simplegraphics.graphics.Rectangle;
-import org.academiadecodigo.simplegraphics.pictures.Picture;
+//import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+//import org.academiadecodigo.simplegraphics.pictures.Picture;
 //
 //public class Mamonas {
 //

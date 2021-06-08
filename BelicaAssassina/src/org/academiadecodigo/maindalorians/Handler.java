@@ -19,9 +19,9 @@ public class Handler implements KeyboardHandler {
     private Picture explosion;
     public Picture[] shots;
     public Picture[] mamona;
-    private String direction;
+    private String[] direction;
     public boolean gameOver = false;
-    private int counter = 10;
+    private int[] counter = new int[50];
     public int spawnCounter = 10;
 
 
@@ -32,7 +32,11 @@ public class Handler implements KeyboardHandler {
         ship.draw();
         shots = new Picture[50];
         mamona = new Picture[50];
+        direction = new String[50];
         this.direction = direction;
+        for (int i = 0; i <counter.length; i++){
+            counter[i] = 10;
+        }
         createMamona();
         createMamona();
     }
@@ -41,7 +45,8 @@ public class Handler implements KeyboardHandler {
     @Override
     public void keyPressed(KeyboardEvent event) {
         if (event.getKey() == KeyboardEvent.KEY_SPACE) {
-            fireShot();
+            if (!gameOver){fireShot(); }
+
         }
         switch (event.getKey()) {
             case KeyboardEvent.KEY_DOWN:
@@ -108,7 +113,7 @@ public class Handler implements KeyboardHandler {
     }
 
     public void createMamona() {
-        int counter = (int) Math.random() * 2;
+
         for (int i = 0; i < mamona.length; i++) {
             if (mamona[i] == null) {
                 mamona[i] = new Picture((int) (Math.random() +
@@ -123,16 +128,16 @@ public class Handler implements KeyboardHandler {
     public void colisionDetector(int i) {
         for (int j = 0; j < mamona.length; j++) {
             if (shots[i] != null && mamona[j] != null) {
-                if ((shots[i].getMaxX() >= mamona[j].getX() + 10) &&
-                        shots[i].getY() >= mamona[j].getY() &&
-                        shots[i].getMaxY() <= mamona[j].getMaxY()) {
+                if (mamona[j].getMaxY() - 10 > shots[i].getY() && mamona[j].getY() + 10 < shots[i].getMaxY()
+                        && mamona[j].getX() + 10 < shots[i].getMaxX() && mamona[j].getMaxX() - 10 > shots[i].getX()) {
                     shots[i].delete();
                     shots[i] = null;
                     mamona[j].delete();
                     drawExplosion(mamona[j].getX(), mamona[j].getY());
                     mamona[j] = null;
+
                     createMamona();
-                    if (Math.random() * 100 > 90) {
+                    if (Math.random() * 100 > 70) {
                         createMamona();
                     }
                     break;
@@ -152,61 +157,62 @@ public class Handler implements KeyboardHandler {
     public void moveMamonas(int i) {
         if (mamona[i].getX() < 10) {
             setGameOver(true);
-            counter = 10;
+            counter[i] = 10;
         } else if (mamona[i].getY() < 10) {
-            mamona[i].translate(0, 20);
-            counter = 10;
+            mamona[i].translate(0, 15);
+            counter[i] = 10;
         } else if (mamona[i].getMaxY() > 720) {
-            mamona[i].translate(0, -20);
-            counter = 10;
+            mamona[i].translate(0, -15);
+            counter[i] = 10;
         }
-        if (counter < 10) {
-            if (this.direction == "up") {
-                mamona[i].translate(0, 20);
-                counter++;
-            } else if (this.direction == "down") {
-                mamona[i].translate(0, -20);
-                counter++;
-            } else if (this.direction == "left") {
-                mamona[i].translate(-20, 0);
-                counter++;
+        if (counter[i] < 10) {
+            if (direction[i] == "up") {
+                mamona[i].translate(0, 15);
+                counter[i]++;
+            } else if (direction[i] == "down") {
+                mamona[i].translate(0, -15);
+                counter[i]++;
+            } else if (direction[i] == "left") {
+                mamona[i].translate(-15, 0);
+                counter[i]++;
             }
         }
-        if (counter == 10) {
-            switch ((int) (Math.random() * (4))) {
+        if (counter[i] == 10) {
+            int random = (int) (Math.random() * (100));
 
-                case 0: {                                               //  is up
-                    mamona[i].translate(0, 20);
-                    direction = "up";
+
+                if (random > 70) {                                               //  is up
+                    mamona[i].translate(0, 10);
+                    direction[i] = "up";
                     System.out.println("up");
-                    counter = 0;
-                    break;
+                    System.out.println("ez bugzito");
+                    counter[i] = 0;
+
                 }
-                case 1: {
-                    mamona[i].translate(0, -20);
-                    direction = "down";
+                else if (40 < random && random < 71 ) {
+                    mamona[i].translate(0, -10);
+                    direction[i] = "down";
                     System.out.println("down");
-                    counter = 0;
-                    break;                                              // is down
+                    System.out.println("ez bugzit");
+                    counter[i] = 0;
+                                                                // is down
                 }
-                case 2: {                                               // is right
-                    mamona[i].translate(-20, 0);
-                    direction = "left";
+                else if (random < 39) {                                               // is right
+                    mamona[i].translate(-10, 0);
+                    direction[i] = "left";
                     System.out.println("left");
-                    counter = 0;
-                    break;
+                    System.out.println("ez bugzito");
+                    counter[i] = 0;
+
                 }
             }
         }
-    }
+
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
     }
 
-    public String getDirection() {
-        return direction;
-    }
 
 
     public void drawExplosion(int x, int y) {

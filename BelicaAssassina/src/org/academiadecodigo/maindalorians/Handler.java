@@ -22,8 +22,9 @@ public class Handler implements KeyboardHandler {
     private String[] direction;
     public boolean gameOver = false;
     private int[] counter = new int[50];
-    public int spawnCounter = 10;
-
+    public int resetGame = 0;
+    public int gameStart = 0;
+    private Game game;
 
     public Handler() {
         rect = new Picture(0, 0, "resources/background.png");
@@ -34,7 +35,7 @@ public class Handler implements KeyboardHandler {
         mamona = new Picture[50];
         direction = new String[50];
         this.direction = direction;
-        for (int i = 0; i <counter.length; i++){
+        for (int i = 0; i < counter.length; i++) {
             counter[i] = 10;
         }
         createMamona();
@@ -45,9 +46,20 @@ public class Handler implements KeyboardHandler {
     @Override
     public void keyPressed(KeyboardEvent event) {
         if (event.getKey() == KeyboardEvent.KEY_SPACE) {
-            if (!gameOver){fireShot(); }
+            if (!gameOver) {
+                fireShot();
+            }
 
         }
+        if (event.getKey() == KeyboardEvent.KEY_ENTER) {
+            if (gameOver == true) {
+                resetGame = 1;
+            }
+            else if (gameStart == 0){
+                gameStart = 1;
+            }
+        }
+
         switch (event.getKey()) {
             case KeyboardEvent.KEY_DOWN:
                 if (ship.getMaxY() < 735) {
@@ -133,7 +145,7 @@ public class Handler implements KeyboardHandler {
                     shots[i].delete();
                     shots[i] = null;
                     mamona[j].delete();
-                    drawExplosion(mamona[j].getX(), mamona[j].getY());
+                    //drawExplosion(mamona[j].getX(), mamona[j].getY());
                     mamona[j] = null;
 
                     createMamona();
@@ -181,38 +193,35 @@ public class Handler implements KeyboardHandler {
             int random = (int) (Math.random() * (100));
 
 
-                if (random > 70) {                                               //  is up
-                    mamona[i].translate(0, 10);
-                    direction[i] = "up";
-                    System.out.println("up");
-                    System.out.println("ez bugzito");
-                    counter[i] = 0;
+            if (random > 70) {                                               //  is up
+                mamona[i].translate(0, 10);
+                direction[i] = "up";
+                System.out.println("up");
+                System.out.println("ez bugzito");
+                counter[i] = 0;
 
-                }
-                else if (40 < random && random < 71 ) {
-                    mamona[i].translate(0, -10);
-                    direction[i] = "down";
-                    System.out.println("down");
-                    System.out.println("ez bugzit");
-                    counter[i] = 0;
-                                                                // is down
-                }
-                else if (random < 39) {                                               // is right
-                    mamona[i].translate(-10, 0);
-                    direction[i] = "left";
-                    System.out.println("left");
-                    System.out.println("ez bugzito");
-                    counter[i] = 0;
+            } else if (40 < random && random < 71) {
+                mamona[i].translate(0, -10);
+                direction[i] = "down";
+                System.out.println("down");
+                System.out.println("ez bugzit");
+                counter[i] = 0;
+                // is down
+            } else if (random < 39) {                                               // is right
+                mamona[i].translate(-10, 0);
+                direction[i] = "left";
+                System.out.println("left");
+                System.out.println("ez bugzito");
+                counter[i] = 0;
 
-                }
             }
         }
+    }
 
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
     }
-
 
 
     public void drawExplosion(int x, int y) {

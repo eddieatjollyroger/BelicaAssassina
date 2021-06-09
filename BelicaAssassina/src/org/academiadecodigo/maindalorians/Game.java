@@ -3,10 +3,13 @@ package org.academiadecodigo.maindalorians;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
+import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Game {
     private static Handler handler;
+    public Start start;
+    public int screen;
 
     public Game() {
 
@@ -56,22 +59,26 @@ public class Game {
         keyboard.addEventListener(rightArrowPress);
         keyboard.addEventListener(enterKeyPress);
 
-
+        start();
     }
+
 
     public void start() {
         while (!handler.gameOver) {
-            for (int i = 0; i < handler.shots.length; i++) {
-                if (handler.shots[i] != null && handler.shots[i].getMaxX() < handler.rect.getWidth()) {
-                    handler.moveShot(i);
-                    handler.colisionDetector(i);
+            if (handler.shots != null) {
+                for (int i = 0; i < handler.shots.length; i++) {
+                    if (handler.shots[i] != null && handler.shots[i].getMaxX() < handler.rect.getWidth()) {
+                        handler.moveShot(i);
+                        handler.colisionDetector(i);
+                    }
                 }
             }
-
-            for (int i = 0; i < handler.mamona.length; i++) {
-                if (handler.mamona[i] != null) {
-                    handler.moveMamonas(i);
-                    handler.colisionDetector(i);
+            if (handler.mamona != null) {
+                for (int i = 0; i < handler.mamona.length; i++) {
+                    if (handler.mamona[i] != null) {
+                        handler.moveMamonas(i);
+                        handler.colisionDetector(i);
+                    }
                 }
             }
             try {
@@ -97,24 +104,20 @@ public class Game {
         restart();
     }
 
-//    public void startScreen(){
-//        int x = 0;
-//        while (handler.gameStart == 0){
-//            Picture startGame = new Picture(0, 0, "resources/background.png");
-//            Picture gameStart = new Picture(0, 0, "resources/splash.png");
-//            if (x == 0){
-//                startGame.draw();
-//                gameStart.draw();
-//                x++;
-//            }
-//        }
-//        restart();
-//    }
+    public void startScreen() {
+         screen = 0;
+        start = new Start(this);
+        while (screen != 2) {
+            start.initScreen();
+        }
+        System.out.println("oranoas");
+    }
 
     public void restart() {
         handler = null;
+        System.out.println("wtf");
         init();
-        start();
+
 
     }
 

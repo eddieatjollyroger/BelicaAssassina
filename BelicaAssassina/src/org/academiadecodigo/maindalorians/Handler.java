@@ -23,10 +23,11 @@ public class Handler implements KeyboardHandler {
     public boolean gameOver = false;
     private int[] counter = new int[50];
     public int resetGame = 0;
-    public int gameStart = 0;
+    public boolean gameStart;
     private Game game;
 
     public Handler() {
+
         rect = new Picture(0, 0, "resources/background.png");
         rect.draw();
         ship = new Picture(0, (int) (rect.getHeight() / 2), "resources/blica2.png");
@@ -38,26 +39,26 @@ public class Handler implements KeyboardHandler {
         for (int i = 0; i < counter.length; i++) {
             counter[i] = 10;
         }
+        System.out.println("do i matter");
         createMamona();
         createMamona();
     }
 
 
+
     @Override
     public void keyPressed(KeyboardEvent event) {
-        if (event.getKey() == KeyboardEvent.KEY_SPACE) {
-            if (!gameOver) {
-                fireShot();
-            }
+            if (event.getKey() == KeyboardEvent.KEY_SPACE) {
+                if (!gameOver) {
+                    fireShot();
+                }
 
         }
         if (event.getKey() == KeyboardEvent.KEY_ENTER) {
             if (gameOver == true) {
                 resetGame = 1;
             }
-            else if (gameStart == 0){
-                gameStart = 1;
-            }
+
         }
 
         switch (event.getKey()) {

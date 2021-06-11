@@ -14,7 +14,7 @@ public class Start implements KeyboardHandler {
     Picture gameStart = new Picture(310, 80, "resources/splash.png");
 
     public Start(Game game){
-    this.game = game;
+        this.game = game;
     }
 
     public void initScreen() {
@@ -42,10 +42,10 @@ public class Start implements KeyboardHandler {
 
         }
     }
-        @Override
-        public void keyReleased (KeyboardEvent keyboardEvent){
-
-        }
-
+    @Override
+    public void keyReleased (KeyboardEvent keyboardEvent){
 
     }
+
+
+}

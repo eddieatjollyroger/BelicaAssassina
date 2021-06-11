@@ -105,7 +105,7 @@ public class Game {
     }
 
     public void startScreen() {
-         screen = 0;
+        screen = 0;
         start = new Start(this);
         while (screen != 2) {
             start.initScreen();

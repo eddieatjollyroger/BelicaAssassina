@@ -48,10 +48,10 @@ public class Handler implements KeyboardHandler {
 
     @Override
     public void keyPressed(KeyboardEvent event) {
-            if (event.getKey() == KeyboardEvent.KEY_SPACE) {
-                if (!gameOver) {
-                    fireShot();
-                }
+        if (event.getKey() == KeyboardEvent.KEY_SPACE) {
+            if (!gameOver) {
+                fireShot();
+            }
 
         }
         if (event.getKey() == KeyboardEvent.KEY_ENTER) {
@@ -63,7 +63,7 @@ public class Handler implements KeyboardHandler {
 
         switch (event.getKey()) {
             case KeyboardEvent.KEY_DOWN:
-                if (ship.getMaxY() < 735) {
+                if (ship.getMaxY() < 720) {
                     ship.translate(0, 20);
                 }
                 break;
